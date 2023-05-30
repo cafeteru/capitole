@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import io.github.capitole.products.adapter.db.ProductRepository;
 import io.github.capitole.products.adapter.db.model.Product;
 import io.github.capitole.products.adapter.db.model.Size;
 import io.github.capitole.products.adapter.db.model.Stock;
 
+@Component
 public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> findAll() {
         var stocks = getStocks();

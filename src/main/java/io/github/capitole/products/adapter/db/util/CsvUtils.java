@@ -22,7 +22,7 @@ public class CsvUtils {
                 lines.add(line);
             }
             return lines;
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             return new ArrayList<>();
         }
     }
