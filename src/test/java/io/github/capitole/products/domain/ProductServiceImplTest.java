@@ -1,5 +1,13 @@
 package io.github.capitole.products.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +39,24 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void findAll_with_successfully_response() {
+        when(repository.findAll()).thenReturn(products);
+
+        var result = service.findAll();
+
+        verify(repository, times(1)).findAll();
+        assertNotEquals(products.getClass(), result.getClass());
+        assertEquals(products.size(), result.size());
+    }
+
+    @Test
+    void findAll_with_empty_response() {
+        when(repository.findAll()).thenReturn(Collections.emptyList());
+
+        var result = service.findAll();
+
+        verify(repository, times(1)).findAll();
+        assertTrue(result.isEmpty());
     }
 
     private Product createProduct(Long id, int sequence) {
