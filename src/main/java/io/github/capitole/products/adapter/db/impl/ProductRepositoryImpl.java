@@ -5,6 +5,7 @@ import static io.github.capitole.products.adapter.db.util.CsvUtils.readCSV;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -16,65 +17,72 @@ import io.github.capitole.products.adapter.db.model.Stock;
 @Component
 public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> findAll() {
-        var stocks = getStocks();
-        var products = getProducts();
-        var result = getSizes(stocks, products);
-        return new ArrayList<>(result.values());
+        final var stocks = getStocks();
+        final var products = getProducts();
+        final var results = getSizes(stocks, products);
+        final var productArrayList = new ArrayList<>(results.values());
+        return productArrayList.stream()
+            .filter(Product::canShow)
+            .collect(Collectors.toList());
     }
 
     private HashMap<Long, Stock> getStocks() {
-        HashMap<Long, Stock> stockHashMap = new HashMap<>();
-        var lines = readCSV("csv/stock.csv");
+        final HashMap<Long, Stock> stockHashMap = new HashMap<>();
+        final var lines = readCSV("csv/stock.csv");
         recursiveStockCreation(lines, stockHashMap, 0);
         return stockHashMap;
     }
 
-    private void recursiveStockCreation(List<String[]> lines, HashMap<Long, Stock> stockHashMap, int index) {
+    private void recursiveStockCreation(
+        final List<String[]> lines, final HashMap<Long, Stock> stockHashMap, final int index) {
         if (index >= lines.size()) {
             return;
         }
 
-        var line = lines.get(index);
-        var stock = new Stock(line);
+        final var line = lines.get(index);
+        final var stock = new Stock(line);
         stockHashMap.put(stock.getSizeId(), stock);
 
         recursiveStockCreation(lines, stockHashMap, index + 1);
     }
 
     private HashMap<Long, Product> getProducts() {
-        HashMap<Long, Product> productHashMap = new HashMap<>();
-        var lines = readCSV("csv/product.csv");
+        final HashMap<Long, Product> productHashMap = new HashMap<>();
+        final var lines = readCSV("csv/product.csv");
         recursiveProductCreation(lines, productHashMap, 0);
         return productHashMap;
     }
 
-    private void recursiveProductCreation(List<String[]> lines, HashMap<Long, Product> productHashMap, int index) {
+    private void recursiveProductCreation(
+        final List<String[]> lines, final HashMap<Long, Product> productHashMap, final int index) {
         if (index >= lines.size()) {
             return;
         }
-        var line = lines.get(index);
-        var product = new Product(line);
+        final var line = lines.get(index);
+        final var product = new Product(line);
         productHashMap.put(product.getId(), product);
 
         recursiveProductCreation(lines, productHashMap, index + 1);
     }
 
-    private HashMap<Long, Product> getSizes(HashMap<Long, Stock> stockHashMap, HashMap<Long, Product> productHashMap) {
-        var lines = readCSV("csv/size.csv");
+    private HashMap<Long, Product> getSizes(
+        final HashMap<Long, Stock> stockHashMap, final HashMap<Long, Product> productHashMap) {
+        final var lines = readCSV("csv/size.csv");
         recursiveSizeCreation(lines, stockHashMap, productHashMap, 0);
         return productHashMap;
     }
 
     private void recursiveSizeCreation(
-        List<String[]> lines, HashMap<Long, Stock> stockHashMap, HashMap<Long, Product> productHashMap, int index) {
+        final List<String[]> lines, final HashMap<Long, Stock> stockHashMap,
+        final HashMap<Long, Product> productHashMap, final int index) {
         if (index >= lines.size()) {
             return;
         }
 
-        var line = lines.get(index);
-        var size = new Size(line);
+        final var line = lines.get(index);
+        final var size = new Size(line);
         size.setStock(stockHashMap.get(size.getId()));
-        var product = productHashMap.get(size.getProductId());
+        final var product = productHashMap.get(size.getProductId());
         product.getSizes().add(size);
 
         recursiveSizeCreation(lines, stockHashMap, productHashMap, index + 1);
