@@ -20,17 +20,17 @@ CREATE TABLE stock
     FOREIGN KEY (size_id) REFERENCES product (id)
 );
 
-COPY product (id, sequence)
-    FROM 'filesystem:src/main/resources/db/migration/product.csv'
-    DELIMITER ','
-    CSV HEADER;
-
-COPY size (id, product_id, back_soon, special)
-    FROM 'filesystem:src/main/resources/db/migration/size.csv'
-    DELIMITER ','
-    CSV HEADER;
-
-COPY stock (size_id, quantity)
-    FROM 'filesystem:src/main/resources/db/migration/stock.csv'
-    DELIMITER ','
-    CSV HEADER;
+-- COPY product (id, sequence)
+--     FROM 'https://github.com/cafeteru/capitole/blob/config-flyway/src/main/resources/db/migration/product.csv'
+--     DELIMITER ','
+--     CSV HEADER;
+--
+-- COPY size (id, product_id, back_soon, special)
+--     FROM 'filesystem:src/main/resources/db/migration/size.csv'
+--     DELIMITER ','
+--     CSV HEADER;
+--
+-- COPY stock (size_id, quantity)
+--     FROM 'filesystem:src/main/resources/db/migration/stock.csv'
+--     DELIMITER ','
+--     CSV HEADER;
