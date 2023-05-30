@@ -30,7 +30,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private HashMap<Long, Stock> getStocks() {
         final HashMap<Long, Stock> stockHashMap = new HashMap<>();
-        final var lines = readCSV("csv/stock.csv");
+        final var lines = readCSV("src/main/resources/db/migration/stock.csv");
         recursiveStockCreation(lines, stockHashMap, 0);
         return stockHashMap;
     }
@@ -50,7 +50,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private HashMap<Long, Product> getProducts() {
         final HashMap<Long, Product> productHashMap = new HashMap<>();
-        final var lines = readCSV("csv/product.csv");
+        final var lines = readCSV("src/main/resources/db/migration/product.csv");
         recursiveProductCreation(lines, productHashMap, 0);
         return productHashMap;
     }
@@ -69,7 +69,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private HashMap<Long, Product> getSizes(
         final HashMap<Long, Stock> stockHashMap, final HashMap<Long, Product> productHashMap) {
-        final var lines = readCSV("csv/size.csv");
+        final var lines = readCSV("src/main/resources/db/migration/size.csv");
         recursiveSizeCreation(lines, stockHashMap, productHashMap, 0);
         return productHashMap;
     }
