@@ -3,6 +3,7 @@ package io.github.capitole.products.adapter.db.impl;
 import static io.github.capitole.products.adapter.db.util.CsvUtils.readCSV;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         final var productArrayList = new ArrayList<>(results.values());
         return productArrayList.stream()
             .filter(Product::canShow)
+            .sorted(Comparator.comparingLong(Product::getSequence).reversed())
             .collect(Collectors.toList());
     }
 
