@@ -9,9 +9,7 @@ import io.github.capitole.products.adapter.db.ProductRepository;
 import io.github.capitole.products.adapter.db.model.Product;
 import io.github.capitole.products.port.ProductService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {

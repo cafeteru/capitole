@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.capitole.products.adapter.api.ProductAdapter;
 import io.github.capitole.products.port.ProductService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class ProductController implements ProductAdapter {
