@@ -1,37 +1,9 @@
 services:
-  postgres-db:
-    image: postgres:17
-    container_name: postgres-db
-    environment:
-      POSTGRES_USER: ${DATASOURCE_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD:-postgres}
-      POSTGRES_DB: ${DATASOURCE_DB:-prices_db}
-    ports:
-      - "${DATASOURCE_PORT:-5432}:5432"
-    networks:
-      - capitole_network
-    restart: always
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    labels:
-      app: capitole
-      service: postgres-db
-
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: capitole
-    depends_on:
-      postgres-db:
-        condition: service_healthy
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${DATASOURCE_HOST:-postgres-db}:${DATASOURCE_PORT:-5432}/${DATASOURCE_DB:-prices_db}
-      SPRING_DATASOURCE_USERNAME: ${DATASOURCE_USERNAME:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD:-postgres}
     ports:
       - "${SERVER_PORT:-8080}:8080"
     networks:
