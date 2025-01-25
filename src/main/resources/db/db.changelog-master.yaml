@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Iván González Mahagamage
+      sqlFile:
+        path: db/changelog/1-create-price-table.sql
+        endDelimiter: ";"
+        splitStatements: true
+        stripComments: true
+
+  - changeSet:
+      id: 2
+      author: Iván González Mahagamage
+      sqlFile:
+        path: db/changelog/2-initial-prices.sql
+        endDelimiter: ";"
+        splitStatements: true
+        stripComments: true

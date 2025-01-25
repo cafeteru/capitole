@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: capitole
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    networks:
+      - capitole_network
+    restart: always
+    labels:
+      app: capitole
+      service: spring-boot
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${SERVER_PORT:-8080}/actuator/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+
+networks:
+  capitole_network:
+    driver: bridge
