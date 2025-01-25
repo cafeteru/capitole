@@ -29,3 +29,13 @@ management:
   health:
     db:
       enabled: true
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /
+    urls:
+      - url: /api/prices.yml
+        name: Prices API
